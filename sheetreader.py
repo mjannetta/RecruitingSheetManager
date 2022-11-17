@@ -10,7 +10,7 @@ responses = sh.worksheet("Responses")
 # Recruit class with info and
 class recruit:
     info = ["First Name", "Last Name", "Phone Number", "Admission Status", "Grad Year", "High School", "City", "State",
-            "Position", "Highlight Tape "]
+            "Position", "Highlight Tape"]
 
     contacted = False
 
@@ -19,13 +19,13 @@ class recruit:
         self.contacted = contacted
 
     @classmethod
-    def string(self):
-        player_string = "Player Info:\nName: " + str(self.info[1]) + ", " + str(self.info[0]) + "\nPosition: " + str(
-            self.info[8]) + "\nPhone Number: " + str(self.info[2]) + "\nAdmission Status: " + str(
-            self.info[3]) + "\nHS Grad Class: " + str(self.info[4]) + "\nHigh School: " + str(
-            self.info[5]) + "\nHometown: " + str(
-            self.info[6]) + ", " + str(self.info[7]) + "\nEmail: " + str(self.info[10]) + "\nIntended Major: " + str(
-            self.info[11]) + "\nHighlight Tape: " + str(self.info[9])
+    def tostring(cls):
+        player_string = "Player Info:\nName: " + str(cls.info[1]) + ", " + str(cls.info[0]) + "\nPosition: " + str(
+            cls.info[8]) + "\nPhone Number: " + str(cls.info[2]) + "\nAdmission Status: " + str(
+            cls.info[3]) + "\nHS Grad Class: " + str(cls.info[4]) + "\nHigh School: " + str(
+            cls.info[5]) + "\nHometown: " + str(
+            cls.info[6]) + ", " + str(cls.info[7]) + "\nEmail: " + str(cls.info[10]) + "\nIntended Major: " + str(
+            cls.info[11]) + "\nHighlight Tape: " + str(cls.info[9])
         return player_string
 
 
@@ -45,16 +45,35 @@ def get_recruit_info(line):
     intended_major = responses.acell('N' + str(line)).value
     info = [
         first_name, last_name, phone_number, admission_status, grad_year, high_school, city, state, position,
-        highlight_tape,
-        email, intended_major]
+        highlight_tape, email, intended_major]
     return info
 
 
-'''def write_recruit(player, sheet):'''
+# Function to write recruit info to a line in their respective class file
+def write_recruit(recruit, sheet, line):
+    sheet.update('A' + str(line), recruit.info[0])
+    sheet.update('B' + str(line), recruit.info[1])
+    sheet.update('C' + str(line), recruit.info[8])
+    sheet.update('D' + str(line), recruit.info[10])
+    sheet.update('E' + str(line), recruit.info[2])
+    sheet.update('F' + str(line), recruit.info[5])
+    sheet.update('G' + str(line), recruit.info[6])
+    sheet.update('H' + str(line), recruit.info[7])
+    sheet.update('I' + str(line), recruit.info[9])
 
-num_recruits = 0
-i = 1
-while (responses.acell("B" + str(i)).value != None):
-    num_recruits += 1
-    i += 1
-print(num_recruits)
+
+# Gets the total number of recruits that have filled out the sheet
+def get_num_recruits():
+    num_recruits = 0
+    i = 1
+    while responses.acell("B" + str(i)).value is not None:
+        num_recruits += 1
+        i += 1
+    return num_recruits
+
+
+'''
+def update_sheet():
+   num_recruits = get_num_recruits()
+   for i in range(1, num_recruits):
+'''
