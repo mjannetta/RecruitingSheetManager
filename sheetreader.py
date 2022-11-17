@@ -4,9 +4,33 @@ sa = gspread.service_account()
 
 sh = sa.open("Lax Sort Test")
 
-responses = sh.worksheet("Sheet1")
+responses = sh.worksheet("Responses")
 
-def get_player_info(line):
+
+# Recruit class with info and
+class recruit:
+    info = ["First Name", "Last Name", "Phone Number", "Admission Status", "Grad Year", "High School", "City", "State",
+            "Position", "Highlight Tape "]
+
+    contacted = False
+
+    def __init__(self, info, contacted):
+        self.info = info
+        self.contacted = contacted
+
+    @classmethod
+    def string(self):
+        player_string = "Player Info:\nName: " + str(self.info[1]) + ", " + str(self.info[0]) + "\nPosition: " + str(
+            self.info[8]) + "\nPhone Number: " + str(self.info[2]) + "\nAdmission Status: " + str(
+            self.info[3]) + "\nHS Grad Class: " + str(self.info[4]) + "\nHigh School: " + str(
+            self.info[5]) + "\nHometown: " + str(
+            self.info[6]) + ", " + str(self.info[7]) + "\nEmail: " + str(self.info[10]) + "\nIntended Major: " + str(
+            self.info[11]) + "\nHighlight Tape: " + str(self.info[9])
+        return player_string
+
+
+# Gets the player information from the given line and puts it into an array
+def get_recruit_info(line):
     first_name = responses.acell('B' + str(line)).value
     last_name = responses.acell('C' + str(line)).value
     phone_number = responses.acell('D' + str(line)).value
@@ -26,24 +50,11 @@ def get_player_info(line):
     return info
 
 
-class player:
-    info = ["First Name", "Last Name", "Phone Number", "Admission Status", "Grad Year", "High School", "City", "State",
-            "Position", "Highlight Tape "]
+'''def write_recruit(player, sheet):'''
 
-    def __init__(self, info, contacted):
-        self.info = info
-        self.contacted = contacted
-
-    @classmethod
-    def string(self):
-        player_string = "Player Info:\nName: " + str(info[1]) + ", " + str(info[0]) + "\nPosition: " + str(
-            info[8]) + "\nPhone Number: " + str(info[2]) + "\nAdmission Status: " + str(
-            info[3]) + "\nHS Grad Class: " + str(info[4]) + "\nHigh School: " + str(info[5]) + "\nHometown: " + str(
-            info[6]) + ", " + str(info[7]) + "\nEmail: " + str(info[10]) + "\nIntended Major: " + str(
-            info[11]) + "\nHighlight Tape: " + str(info[9])
-        return player_string
-
-line = input("Enter Line: ")
-info = get_player_info(line)
-test = player(info, False)
-print(test.string())
+num_recruits = 0
+i = 1
+while (responses.acell("B" + str(i)).value != None):
+    num_recruits += 1
+    i += 1
+print(num_recruits)
